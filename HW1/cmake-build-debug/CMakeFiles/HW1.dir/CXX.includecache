@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/dangalang/Documents/Academics/COP3330/remote/COP3330/HW1/house.cpp
+house.h
+/home/dangalang/Documents/Academics/COP3330/remote/COP3330/HW1/house.h
+iostream
+-
+iomanip
+-
+cmath
+-
+
+/home/dangalang/Documents/Academics/COP3330/remote/COP3330/HW1/house.h
+
