@@ -14,7 +14,7 @@ Date::Date() {
     day = 1;
     month = 1;
     year = 2000;
-    form = 'D';
+    form = Default;
 }
 
 Date::Date(int m, int d, int y) {
@@ -27,7 +27,7 @@ Date::Date(int m, int d, int y) {
         day = 1;
         year = 2000;
     }
-    form = 'D';
+    form = Default;
 }
 
 void Date::Input() {
@@ -53,17 +53,17 @@ bool Date::Set(int m, int d, int y) {
 
 bool Date::SetFormat(char f) {
     switch (f) {
-        case 'D':		// Default format, M/D/Y
-            form = 'D';
+        case 'D':        // Default format, M/D/Y
+            form = Default;
             return true;
-        case 'T':		// Two-Digit format, mm/dd/yy
-            form = 'T';
+        case 'T':        // Two-Digit format, mm/dd/yy
+            form = TwoDigit;
             return true;
-        case 'L':		// Long format, month D, Y
-            form = 'L';
+        case 'L':        // Long format, month D, Y
+            form = LongForm;
             return true;
-        case 'J':		// Julian format, YY-JJJ
-            form = 'J';
+        case 'J':        // Julian format, YY-JJJ
+            form = Julian;
             return true;
         default:
             return false;
@@ -76,10 +76,10 @@ void Date::Increment(int numDays) {
         return;
     // check if the number of days will move into the next month
     while (day + numDays > DAYS_IN_MONTH[month - 1] +
-            (month == 2 && IsLeap(year) ? 1 : 0)) {
+                           (month == 2 && IsLeap(year) ? 1 : 0)) {
         // remove the number of days required to get to the next month
         numDays -= DAYS_IN_MONTH[month - 1] +
-            (month == 2 && IsLeap(year) ? 1 : 0) - day;
+                   (month == 2 && IsLeap(year) ? 1 : 0) - day;
         day = 0;
         if (++month > 12) {
             month = 1;
@@ -110,18 +110,18 @@ void Date::Show() const {
         numDay += DAYS_IN_MONTH[i];
 
     switch (form) {
-        case 'D':		// Defalut format: M/D/Y
+        case Default:        // Default format: M/D/Y
             cout << month << '/' << day << '/' << year << endl;
             return;
-        case 'T':		// Two Digit format: mm/dd/yy
+        case TwoDigit:        // Two Digit format: mm/dd/yy
             cout << std::setfill('0') << std::setw(2) << month << '/';
             cout << std::setfill('0') << std::setw(2) << day << '/';
             cout << std::setfill('0') << std::setw(2) << year % 100 << endl;
             return;
-        case 'L':		// Long format: month D, Y
+        case LongForm:        // Long format: month D, Y
             cout << NAMES_OF_MONTH[month - 1] << ' ' << day << ", " << year << endl;
             return;
-        case 'J':		// Julian format: YY-JJJ
+        case Julian:        // Julian format: YY-JJJ
             cout << std::setfill('0') << std::setw(2) << year % 100 << '-';
             cout << std::setfill('0') << std::setw(3) << numDay << endl;
             return;
@@ -168,6 +168,7 @@ bool Date::IsLeap(int y) const {
 }
 
 const char *Date::NAMES_OF_MONTH[] =
-        {"Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"};
+        {"Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept",
+         "Oct", "Nov", "Dec"};
 const int Date::DAYS_IN_MONTH[] =
         {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
