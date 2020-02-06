@@ -6,6 +6,7 @@
 
 class Date {
 public:
+    // Constructors
     Date();
     Date(int m, int d, int y);
 
@@ -23,16 +24,24 @@ public:
     int Compare(const Date& d) const;
 
 private:
+    // Given a date, check if it is older than 0 CE/AD, a month between 1 and
+    // 12, and if it is a leap year that the days fall within the monthly range
     bool IsValid(int m, int d, int y) const;
+
+    // Check if the year is a multiple of 4 and if that year is a centenial,
+    // if it is also a multiple of 400
     bool IsLeap(int y) const;
 
     int month;
     int day;
     int year;
     char form;
+    // enum form {Default, TwoDigit, Long, Julian};
 
+    // Names of the month used for printing the long date format
     static const char * NAMES_OF_MONTH[12];
-//            {"Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"};
+
+    // Days in each month, used for calculating date validity, monthly
+    // increments and julian dates
     static const int DAYS_IN_MONTH[12];
-//        {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 };
