@@ -11,6 +11,8 @@ using namespace std;
 
 // FRIEND FUNCTIONS
 
+//TODO: Is it better to comment functions in .h or .cpp
+
 /* OStream overload for Distance objects (MILESm YARDSy FEET' INCHES").  Inches
  * will always be displayed but miles, yards and feet will only display if
  * nonzero. */
@@ -33,8 +35,7 @@ istream& operator>>(istream& s, Distance& d) {
     int mi, yd, ft, in;
 
     s >> mi >> comma >> yd >> comma >> ft >> comma >> in;
-    Distance temp(mi, yd, ft, in);
-    d = temp;
+    d = Distance(mi, yd, ft, in);
 
     return s;
 }
@@ -62,13 +63,13 @@ Distance operator-(const Distance& d1, const Distance& d2) {
 
     if (in < 0) {
         ft--;
-        in += d1.INCHES_PER_FOOT;   //TODO: Better const value accessing
+        in += Distance::INCHES_PER_FOOT;
     } if (ft < 0) {
         yd--;
-        ft += d1.FEET_PER_YARD;
+        ft += Distance::FEET_PER_YARD;
     } if (yd < 0) {
         mi--;
-        yd += d1.YARDS_PER_MILE;
+        yd += Distance::YARDS_PER_MILE;
     }
 
     return Distance(mi, yd, ft, in);
@@ -174,6 +175,7 @@ Distance::Distance(int mi, int yd, int ft, int in) {
     }
 }
 
+//TODO: Returning non-constant objects vs. constant object types
 
 // post-fix incrementation of Distance objects increases distance by one inch.
 Distance Distance::operator++(int) {
