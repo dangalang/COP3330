@@ -11,7 +11,7 @@ using namespace std;
 
 // FRIEND FUNCTIONS
 
-/* Ostream overload for Distance objects (MILESm YARDSy FEET' INCHES").  Inches
+/* OStream overload for Distance objects (MILESm YARDSy FEET' INCHES").  Inches
  * will always be displayed but miles, yards and feet will only display if
  * nonzero. */
 ostream& operator<<(ostream& s, const Distance& d) {
@@ -24,7 +24,7 @@ ostream& operator<<(ostream& s, const Distance& d) {
 }
 
 
-/* Istream overload for Distance objects (format: MILES,YARDS,FEET,INCHES).
+/* IStream overload for Distance objects (format: MILES,YARDS,FEET,INCHES).
  * Values are entered in a comma separated list and only positive distances
  * are accepted.  If values are not fully simplified, it will be done
  * automatically. */
@@ -74,6 +74,59 @@ Distance operator-(const Distance& d1, const Distance& d2) {
     return Distance(mi, yd, ft, in);
 }
 
+
+/* Multiplication operator overload for distance object.  Distances can only
+ * be multiplied by an integer.  Any negative multiple will default to zero. */
+Distance operator*(const Distance& d1, int mult) {
+    int mi, yd, ft, in;
+    mi = d1.GetMiles()  * mult;
+    yd = d1.GetYards()  * mult;
+    ft = d1.GetFeet()   * mult;
+    in = d1.GetInches() * mult;
+
+    return Distance(mi, yd, ft, in);
+}
+
+
+// Less than operator overload for Distance objects.
+bool operator<(const Distance& d1, const Distance& d2) {
+    if (d1.GetMiles()  < d2.GetMiles())  return true;
+    if (d1.GetYards()  < d2.GetYards())  return true;
+    if (d1.GetFeet()   < d2.GetFeet())   return true;
+    if (d1.GetInches() < d2.GetInches()) return true;
+    return false;
+}
+
+
+// Greater than operator overload for Distance objects.
+bool operator>(const Distance& d1, const Distance& d2) {
+    return d2 < d1;
+}
+
+
+// Less than or equal to operator overload for Distance objects.
+bool operator<=(const Distance& d1, const Distance& d2) {
+    if (!(d1 > d2)) return true;
+    else return false;
+}
+
+
+// Greater than or equal to operator overload for Distance objects.
+bool operator>=(const Distance& d1, const Distance& d2) {
+    return d2 <= d1;
+}
+
+
+// Equality operator overload for Distance objects.
+bool operator==(const Distance& d1, const Distance& d2) {
+    return d1 <= d2 && d1 >= d2;
+}
+
+
+// Inequality operator overload for Distance objects.
+bool operator!=(const Distance& d1, const Distance& d2) {
+    return d1 < d2 || d1 > d2;
+}
 
 
 // MEMBER FUNCTIONS

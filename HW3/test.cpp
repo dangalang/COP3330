@@ -82,12 +82,37 @@ int main() {
     cout << "d1: " << d1 << endl;
     cout << "d2: " << d2 << endl;
     cout << "d1 - d2 = " << d1 - d2 << endl;
-    d1 = Distance(0,400,0,0);
-    d2 = Distance(0,11,2,7);
+    d1 = Distance(0,1,6,9);
+    d2 = Distance(2,5,2,7);
     cout << "d1: " << d1 << endl;
     cout << "d2: " << d2 << endl;
     cout << "d1 - d2 = " << d1 - d2 << endl;
 
+    // Check multiplication
+    cout << "d1: " << d1 << endl;
+    cout << "d1 * 5 = " << d1 * 5 << endl;
+    cout << "d1 * 76 = " << d1 * 76 << endl;
+    cout << "d1 * 2.5 = " << d1 * 2.5 << endl;
+    cout << "d1 * -3 = " << d1 * -3 << endl;
+
+    // Check comparison and equality
+    d1 = Distance(0,0,0,2);
+    d2 = Distance(0,0,0,3);
+    cout << "d1: " << d1 << endl;
+    cout << "d2: " << d2 << endl;
+    cout << "d1 < d2: " << (d1 < d2 ? "true" : "false") << endl;
+    cout << "d1 > d2: " << (d1 > d2 ? "true" : "false") << endl;
+    cout << "d1 <= d2: " << (d1 <= d2 ? "true" : "false") << endl;
+    cout << "d1 <= d1: " << (d1 <= d1 ? "true" : "false") << endl;
+    cout << "d1 >= d2: " << (d1 >= d2 ? "true" : "false") << endl;
+    cout << "d2 >= d2: " << (d2 >= d2 ? "true" : "false") << endl;
+    cout << "d1 == d2: " << (d1 == d2 ? "true" : "false") << endl;
+    cout << "d1 == d1: " << (d1 == d1 ? "true" : "false") << endl;
+    cout << "d1 != d2: " << (d1 != d2 ? "true" : "false") << endl;
+    cout << "d2 != d2: " << (d2 != d2 ? "true" : "false") << endl;
+    cout << "d1 < 5: " << (d1 < 5 ? "true" : "false") << endl;
+    cout << "d1 < 1234567: " << (d1 < 1234567 ? "true" : "false") << endl;
+    cout << "d1 == 2: " << (d1 == 2 ? "true" : "false") << endl;
 
     return 0;
 }

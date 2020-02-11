@@ -13,7 +13,7 @@ class Distance {
 
     friend Distance operator+(const Distance& d1, const Distance& d2);
     friend Distance operator-(const Distance& d1, const Distance& d2);
-    friend Distance operator*(const Distance& d1, const Distance& d2);
+    friend Distance operator*(const Distance& d1, int mult);
 
     friend bool operator<(const Distance& d1, const Distance& d2);
     friend bool operator>(const Distance& d1, const Distance& d2);
