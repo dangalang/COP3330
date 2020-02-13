@@ -33,12 +33,12 @@ public:
     Distance& operator--();
     Distance operator--(int);
 
+private:
     int GetMiles() const;
     int GetYards() const;
     int GetFeet() const;
     int GetInches() const;
 
-private:
     void simplify(Distance& d1);
 
     int miles, yards, feet, inches;
