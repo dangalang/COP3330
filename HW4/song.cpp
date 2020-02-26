@@ -5,38 +5,52 @@
  * Due: 6 MAR 2020
  */
 
+#include <iostream>
 #include "song.h"
 
 using namespace std;
 
 ostream& operator<<(ostream& os, const Song& s) {
-    os << setw(35) << s.GetTitle();
-    os << setw(20) << s.GetArtist();
+    ios_base::fmtflags oldflags = cout.flags();
+    int oldprecision = os.precision();
 
+    os.setf(ios::left);
+    os.width(36);
+    os << s.GetTitle();
+    os.width(21);
+    os << s.GetArtist();
+
+    os.width(10);
     switch (s.GetCategory()) {
         case POP:
-                os << setw(8) << "Pop";
-                break;
+            os << "Pop";
+            break;
         case ROCK:
-            os << setw(8) << "Rock";
+            os << "Rock";
             break;
         case ALTERNATIVE:
-            os << setw(8) << "Alt";
+            os << "Alt";
             break;
         case COUNTRY:
-            os << setw(8) << "Ctry";
+            os << "Ctry";
             break;
         case HIPHOP:
-            os << setw(8) << "HH";
+            os << "HH";
             break;
         case PARODY:
-            os << setw(8) << "Par";
+            os << "Par";
             break;
         default:
-            os << setw(8) << "N/A";
+            os << "N/A";
     }
 
-    os << setw(5) << s.GetSize();
+    os.setf(ios::right);
+    os.width(9);
+    os.precision(1);
+    os << s.GetSize() / 1000.0;
+
+    os.precision(oldprecision);
+    os.setf(oldflags);
     os << endl;
 
     return os;
@@ -51,8 +65,21 @@ Song::Song() {
 
 
 void Song::Set(const char* t, const char* a, Style st, int sz) {
-    strncpy(title, t, 35);
-    strncpy(artist, a, 20);
+
+    int i = 0;
+    do {
+        title[i] = t[i];
+        i++;
+    } while (i-1 < 35 && t[i-1] != '\0');
+    title[35] = '\0';
+
+    i = 0;
+    do {
+        artist[i] = a[i];
+        i++;
+    } while (i-1 < 20 && a[i-1] != '\0');
+    artist[20] = '\0';
+
     category = st;
     size = (sz > 0 ? sz : 0);
 }
