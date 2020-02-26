@@ -10,8 +10,7 @@ int main() {
     cout << "*Title*                             *Artist*             *Style*"
             "   *Size (MB)*\n";
     Song song;
-    song.Set("AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz", "The "
-                                                                  "Beatles", ALTERNATIVE, 400);
+    song.Set("", "", ALTERNATIVE, 400);
     cout << song;
     cout << song;
 
