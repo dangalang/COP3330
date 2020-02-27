@@ -12,7 +12,8 @@ using namespace std;
 
 
 /* Format song output for streams.  Fixed width title, artist, genre and size.
- * Size is converted to megabytes and displayed to 1 decimal place. */
+ * Size is converted to megabytes and displayed to 1 decimal place. Output
+ * ends in a newline. */
 ostream& operator<<(ostream& os, const Song& s) {
     ios_base::fmtflags oldflags = cout.flags();
     int oldprecision = os.precision();

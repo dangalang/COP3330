@@ -84,12 +84,19 @@ int main() {
                 oldprecision = cout.precision();
                 cout.precision(1);
                 cout << "Total playlist size = "
-                     << playlist.getSize() / 1000.0 << "MB\n";
+                     << playlist.getSize() / 1000.0 << " MB\n";
                 cout.precision(oldprecision);
                 break;
 
             case 'c':
-                playlist.showGenre(getCategory());
+                search_results = playlist.getGenre(getCategory());
+                cout << "Total songs in this category = "
+                     << search_results.getCount() << endl;
+                oldprecision = cout.precision();
+                cout.precision(1);
+                cout << "Total file size = "
+                     << search_results.getSize() / 1000.0 << " MB\n";
+                cout.precision(oldprecision);
                 break;
 
             case 'z':
