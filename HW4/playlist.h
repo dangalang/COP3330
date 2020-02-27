@@ -5,28 +5,32 @@
  * Due: 6 MAR 2020
  */
 
+#include <iostream>
 #include "song.h"
 
 
 using namespace std;
 
 class Playlist {
-
+    friend ostream& operator<<(ostream& os, const Playlist& p);
 public:
     Playlist();
     ~Playlist();
 
-    void add(const Song& s);
-    void remove(const char* title);
-    void Sort(bool sort_by_title);
+    Playlist& operator=(const Playlist& p);
 
-    void searchSongs(const char* title) const;
-    void searchArtists(const char* artist) const;
-    void showList() const;
-    void showGenre() const;
+    bool add(const char* t, const char* ar, Style st, int sz);
+    bool remove(const char* title);
+    void Sort(char sort_choice);
+
+    Playlist searchSongs(const char* title) const;
+    Playlist searchArtists(const char* artist) const;
+    void showGenre(Style st) const;
+    int getSize() const;
+    int getCount() const;
 
 private:
-    void getSize() const;
+    void resize();
 
     Song * song_list;
     int list_size;
