@@ -51,7 +51,7 @@ ostream& operator<<(ostream& os, const Song& s) {
     os.setf(ios::right);
     os.width(9);
     os.precision(1);
-    os << s.GetSize() / 1000.0;
+    os << static_cast<double>(s.GetSize()) / 1000.0;
 
     os << endl;
     os.precision(oldprecision);

@@ -18,32 +18,37 @@ int main() {
     Playlist playlist, search_results;
     char menu_choice;
     char sort_choice;
-    char* song_title;
-    char* song_artist;
+    char song_title[36];
+    char song_artist[21];
     Style song_style;
     int song_size;
     int oldprecision;
+    const char* MENU = "       *** Playlist Menu ***\n"
+                       "       A:   Add a song to the playlist \n"
+                       "       F:   Find a song on the playlist \n"
+                       "       D:   Delete a song from the playlist\n"
+                       "       S:   Show the entire playlist\n"
+                       "       C:   Category summary \n"
+                       "       Z:   Show playlist size\n"
+                       "       O:   Sort playlist\n"
+                       "       M:   Show this Menu \n"
+                       "       X:   Exit the program\n";
 
     cout << "*** Welcome to playlist manager ***\n";
+    cout << MENU;
     do {
-        cout << "       *** Playlist Menu ***\n"
-                "  A:   Add a song to the playlist \n"
-                "  F:   Find a song on the playlist \n"
-                "  D:   Delete a song from the playlist\n"
-                "  S:   Show the entire playlist\n"
-                "  C:   Category summary \n"
-                "  Z:   Show playlist size\n"
-                "  M:   Show this Menu \n"
-                "  X:   eXit the program\n";
         cout << "> ";
         cin >> menu_choice;
+        cin.get();
 
         switch(tolower(menu_choice)) {
             case 'a':
                 cout << "Enter title: ";
-                cin >> song_title;
+                cin.getline(song_title, 36);
                 cout << "Enter artist: ";
-                cin >> song_artist;
+                cin.getline(song_artist, 21);
+                song_style = getCategory();
+
                 do {
                     cout << "Enter size: ";
                     cin >> song_size;
@@ -52,7 +57,6 @@ int main() {
                                 "...\n";
                 } while (song_size < 0);
 
-                song_style = getCategory();
                 playlist.add(song_title, song_artist, song_style, song_size);
                 break;
 
@@ -79,12 +83,19 @@ int main() {
                 break;
 
             case 's':
-                cout << playlist;
+                if (playlist.getCount() == 0)
+                    cout << "No songs currently in playlist.\n\n";
+                else {
+                    cout << "*Title*                             *Artist*    "
+                            "         *Style*   *Size (MB)*\n";
+                    cout << playlist;
+                }
                 cout << "Number of songs = " << playlist.getCount() << endl;
                 oldprecision = cout.precision();
                 cout.precision(1);
                 cout << "Total playlist size = "
-                     << playlist.getSize() / 1000.0 << " MB\n";
+                     << static_cast<double>(playlist.getSize()) / 1000.0
+                     << " MB\n";
                 cout.precision(oldprecision);
                 break;
 
@@ -95,7 +106,8 @@ int main() {
                 oldprecision = cout.precision();
                 cout.precision(1);
                 cout << "Total file size = "
-                     << search_results.getSize() / 1000.0 << " MB\n";
+                     << static_cast<double>(search_results.getSize()) / 1000.0
+                     << " MB\n";
                 cout.precision(oldprecision);
                 break;
 
@@ -113,8 +125,13 @@ int main() {
                 } while (!strchr("at", tolower(sort_choice)));
                 playlist.Sort(sort_choice);
                 break;
-            case 'm': break;
+
+            case 'm':
+                cout << MENU;
+                break;
+
             case 'x': break;
+
             default:
                 cout << "Invalid menu choice, try again...\n";
         }
@@ -131,6 +148,7 @@ Style getCategory() {
         cout << "Enter category - (P)op, (R)ock, (A)lternative, (C)"
                 "ountry, (H)iphop, Parod(Y): ";
         cin >> song_genre;
+        cin.get();
         if (!strchr("prachy", tolower(song_genre)))
             cout << "Invalid category entry, please re-enter...\n";
     } while (!strchr("prachy", tolower(song_genre)));

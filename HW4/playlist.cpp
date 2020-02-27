@@ -139,7 +139,7 @@ Playlist Playlist::searchSongs(const char *title) const {
 Playlist Playlist::searchArtists(const char *artist) const {
     Playlist results;
     for (int i = 0; i < current_song; i++) {
-        if (strncmp(song_list[i].GetArtist(), title, 20) == 0)
+        if (strncmp(song_list[i].GetArtist(), artist, 20) == 0)
             results.add(song_list[i]);
     }
     return results;
@@ -162,6 +162,7 @@ int Playlist::getSize() const {
     int total_size = 0;
     for (int i = 0; i < current_song; i++)
         total_size += song_list[i].GetSize();
+    return total_size;
 }
 
 
@@ -177,9 +178,14 @@ void Playlist::resize() {
         Song* temp = new Song[list_size];
         for (int i = 0; i < current_song; i++)
             temp[i] = song_list[i];
-        delete [] song_list
+        delete [] song_list;
         song_list = temp;
     } else if (list_size - current_song > 5) {
-        //TODO: Reduce list size;
+        list_size -= 5;
+        Song* temp = new Song[list_size];
+        for (int i = 0; i < current_song; i++)
+            temp[i] = song_list[i];
+        delete [] song_list;
+        song_list = temp;
     }
 }
