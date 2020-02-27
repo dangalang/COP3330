@@ -62,7 +62,7 @@ int main() {
 
             case 'f':
                 cout << "Enter search string (title or artist): ";
-                cin >> song_title;
+                cin.getline(song_title, 36);
                 search_results = playlist.searchSongs(song_title);
                 if (search_results.getCount() == 0)
                     search_results = playlist.searchArtists(song_title);
@@ -74,7 +74,7 @@ int main() {
 
             case 'd':
                 cout << "Enter title to delete: ";
-                cin >> song_title;
+                cin.getline(song_title, 36);
                 if (playlist.remove(song_title))
                     cout << "Song removed!\n";
                 else
@@ -101,6 +101,7 @@ int main() {
 
             case 'c':
                 search_results = playlist.getGenre(getCategory());
+                cout << search_results;
                 cout << "Total songs in this category = "
                      << search_results.getCount() << endl;
                 oldprecision = cout.precision();
