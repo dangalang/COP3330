@@ -23,6 +23,7 @@ int main() {
     Style song_style;
     int song_size;
     int oldprecision;
+    ios_base::fmtflags oldflags;
     const char* MENU = "       *** Playlist Menu ***\n"
                        "       A:   Add a song to the playlist \n"
                        "       F:   Find a song on the playlist \n"
@@ -92,11 +93,14 @@ int main() {
                 }
                 cout << "Number of songs = " << playlist.getCount() << endl;
                 oldprecision = cout.precision();
+                oldflags = cout.flags();
+                cout << fixed;
                 cout.precision(1);
                 cout << "Total playlist size = "
                      << static_cast<double>(playlist.getSize()) / 1000.0
                      << " MB\n";
                 cout.precision(oldprecision);
+                cout.flags(oldflags);
                 break;
 
             case 'c':
@@ -105,11 +109,14 @@ int main() {
                 cout << "Total songs in this category = "
                      << search_results.getCount() << endl;
                 oldprecision = cout.precision();
+                oldflags = cout.flags();
+                cout << fixed;
                 cout.precision(1);
                 cout << "Total file size = "
                      << static_cast<double>(search_results.getSize()) / 1000.0
                      << " MB\n";
                 cout.precision(oldprecision);
+                cout.flags(oldflags);
                 break;
 
             case 'z':
@@ -146,8 +153,8 @@ int main() {
 Style getCategory() {
     char song_genre;
     do {
-        cout << "Enter category - (P)op, (R)ock, (A)lternative, (C)"
-                "ountry, (H)iphop, Parod(Y): ";
+        cout << "Enter category - (P)op, (R)ock, (A)lternative, (C)ountry, "
+                "(H)iphop, Parod(Y): ";
         cin >> song_genre;
         cin.get();
         if (!strchr("prachy", tolower(song_genre)))

@@ -15,7 +15,7 @@ using namespace std;
  * Size is converted to megabytes and displayed to 1 decimal place. Output
  * ends in a newline. */
 ostream& operator<<(ostream& os, const Song& s) {
-    ios_base::fmtflags oldflags = cout.flags();
+    ios_base::fmtflags oldflags = os.flags();
     int oldprecision = os.precision();
 
     os.setf(ios::left);
@@ -51,6 +51,7 @@ ostream& operator<<(ostream& os, const Song& s) {
     os.setf(ios::right);
     os.width(9);
     os.precision(1);
+    os << fixed;
     os << static_cast<double>(s.GetSize()) / 1000.0;
 
     os << endl;

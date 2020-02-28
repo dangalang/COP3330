@@ -61,10 +61,6 @@ Playlist& Playlist::operator=(const Playlist& p) {
         song_list = new Song[list_size];
         for (int i = 0; i < current_song; i++)
             song_list[i] = p.song_list[i];
-//            song_list[i].Set(p.song_list[i].GetTitle(),
-//                             p.song_list[i].GetArtist(),
-//                             p.song_list[i].GetCategory(),
-//                             p.song_list[i].GetSize());
     }
 
     return *this;
@@ -111,12 +107,26 @@ bool Playlist::remove(const char *title) {
 
 
 /* Sort the playlist lexicographically by either the artist names or song
- * titles. */
+ * titles.  Uses basic sort algorithm from ch 5 of textbook. */
 void Playlist::Sort(char sort_choice) {
+    int next_song;
+    Song temp;
     switch (tolower(sort_choice)) {
         case 'a':
+            for (int i = 0; i < current_song; i++) {
+                next_song = findNextArtist(i);
+                temp = song_list[i];
+                song_list[i] = song_list[next_song];
+                song_list[next_song] = temp;
+            }
             break;
         case 't':
+            for (int i = 0; i < current_song; i++) {
+                next_song = findNextTitle(i);
+                temp = song_list[i];
+                song_list[i] = song_list[next_song];
+                song_list[next_song] = temp;
+            }
             break;
         default:
             break;
@@ -188,4 +198,26 @@ void Playlist::resize() {
         delete [] song_list;
         song_list = temp;
     }
+}
+
+
+int Playlist::findNextArtist(int index) {
+    int next_index = index;
+    for (int i = index + 1; i < current_song; i++) {
+        if (strncmp(song_list[next_index].GetArtist(),
+                song_list[i].GetArtist(), 20) > 0)
+            next_index = i;
+    }
+    return next_index;
+}
+
+
+int Playlist::findNextTitle(int index) {
+    int next_index = index;
+    for (int i = index + 1; i < current_song; i++) {
+        if (strncmp(song_list[next_index].GetTitle(),
+                song_list[i].GetTitle(), 35) > 0)
+            next_index = i;
+    }
+    return next_index;
 }
