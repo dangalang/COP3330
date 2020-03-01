@@ -34,8 +34,8 @@ public:
 
 private:
     void resize();
-    int findNextArtist(int index);
-    int findNextTitle(int index);
+    int findNextArtist(int index) const;
+    int findNextTitle(int index) const;
 
     Song * song_list;
     int list_size;

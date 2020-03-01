@@ -35,6 +35,7 @@ int main() {
                        "       M:   Show this Menu \n"
                        "       X:   Exit the program\n";
 
+    // Initialize main menu loop
     cout << "*** Welcome to playlist manager ***\n";
     cout << MENU;
     do {
@@ -43,6 +44,7 @@ int main() {
         cin.get();
 
         switch(tolower(menu_choice)) {
+            // Add a song to the playlist
             case 'a':
                 cout << "Enter title: ";
                 cin.getline(song_title, 36);
@@ -61,6 +63,7 @@ int main() {
                 playlist.add(song_title, song_artist, song_style, song_size);
                 break;
 
+            // Search for a song in the playlist
             case 'f':
                 cout << "Enter search string (title or artist): ";
                 cin.getline(song_title, 36);
@@ -73,6 +76,7 @@ int main() {
                     cout << search_results;
                 break;
 
+            // Delete a song from the playlist
             case 'd':
                 cout << "Enter title to delete: ";
                 cin.getline(song_title, 36);
@@ -83,6 +87,7 @@ int main() {
                          << "* No deletion performed. *\n";
                 break;
 
+            // Show the entire playlist
             case 's':
                 if (playlist.getCount() == 0)
                     cout << "No songs currently in playlist.\n\n";
@@ -103,6 +108,7 @@ int main() {
                 cout.flags(oldflags);
                 break;
 
+            // Only show songs belonging to a specific category
             case 'c':
                 search_results = playlist.getGenre(getCategory());
                 cout << search_results;
@@ -119,11 +125,13 @@ int main() {
                 cout.flags(oldflags);
                 break;
 
+            // Show the current size of the playlist
             case 'z':
                 cout << "Total size of playlist = " << playlist.getSize() <<
                 " kilobytes\n";
                 break;
 
+            // Sort the playlist by title or artist
             case 'o':
                 do {
                     cout << "Sort by (T)itle or (A)rtist: ";
@@ -134,10 +142,12 @@ int main() {
                 playlist.Sort(sort_choice);
                 break;
 
+            // Redisplay the menu
             case 'm':
                 cout << MENU;
                 break;
 
+            // Exit
             case 'x': break;
 
             default:
@@ -150,6 +160,9 @@ int main() {
 }
 
 
+/* Request a character entry from the user and return the appropriate Style
+ * enumeration.  If input is invalid, loop until a valid character is
+ * provided. */
 Style getCategory() {
     char song_genre;
     do {

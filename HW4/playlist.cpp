@@ -30,7 +30,8 @@ Playlist::Playlist() {
 }
 
 
-/* Copy constructor for Playlist object. */
+/* Copy constructor for Playlist object.  Used for deep copies when returning
+ * by value. */
 Playlist::Playlist(const Playlist& p) {
     list_size = p.list_size;
     current_song = p.current_song;
@@ -90,7 +91,7 @@ bool Playlist::add(const Song& s) {
 bool Playlist::remove(const char *title) {
     bool song_found = false;
     int location = 0;
-    while (!song_found && location < current_song - 1) {
+    while (!song_found && location < current_song) {
         if (strncmp(song_list[location].GetTitle(), title, 35) == 0)
             song_found = true;
         else
@@ -182,6 +183,8 @@ int Playlist::getCount() const {
 }
 
 
+/* Resize the song array to make room for adding songs while limiting empty
+ * space in the array to no more than 5 songs at a time. */
 void Playlist::resize() {
     if (current_song >= list_size) {
         list_size += 5;
@@ -201,7 +204,9 @@ void Playlist::resize() {
 }
 
 
-int Playlist::findNextArtist(int index) {
+/* Parse the song array and find the artist that comes next
+ * lexicographically. */
+int Playlist::findNextArtist(int index) const {
     int next_index = index;
     for (int i = index + 1; i < current_song; i++) {
         if (strncmp(song_list[next_index].GetArtist(),
@@ -212,7 +217,9 @@ int Playlist::findNextArtist(int index) {
 }
 
 
-int Playlist::findNextTitle(int index) {
+/* Parse the song array and find the next title that comes next
+ * lexicographically. */
+int Playlist::findNextTitle(int index) const {
     int next_index = index;
     for (int i = index + 1; i < current_song; i++) {
         if (strncmp(song_list[next_index].GetTitle(),
