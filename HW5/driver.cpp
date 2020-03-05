@@ -5,6 +5,8 @@ using namespace std;
 
 int main()
 {
+   char temp1[300], temp2[300], temp3[300];
+
    MyString s1;
    MyString s2("Hello, World");
    MyString s3 = "Welcome to Florida, have a nice day";
@@ -21,10 +23,15 @@ int main()
         << "\tgetline(cin, s2, ',')\n"
         << "\tgetline(cin, s3)\n";
    cout << "Enter some sentences: ";
-  
-   cin >> s1;
-   getline(cin,s2,',');
-   getline(cin,s3);
+
+//   cin >> s1;
+//   getline(cin,s2,',');
+//   getline(cin,s3);
+
+//   cout << "Enter them again: ";
+//   cin >> temp1;
+//   cin.getline(temp2, 300, ',');
+//   cin.getline(temp3, 300);
 
    cout << "\nNew string values:\n";
 
@@ -33,6 +40,11 @@ int main()
    cout << "s3 = " << s3 << '\n';
    cout << "---------------------------\n";
 
+//   cout << "Comparison to cstrings:\n";
+//   cout << "s1 = " << temp1 << '\n';
+//   cout << "s2 = " << temp2 << '\n';
+//   cout << "s3 = " << temp3 << '\n';
+//   cout << "---------------------------\n";
 // ----------------------------------
 
    s1 = "Dog";
@@ -56,6 +68,7 @@ int main()
    cout << "s5[52] = ascii " << static_cast<int>(s5[52]) << '\n';
 
    cout << "s5.substring(10,16) = " << s5.substring(10,16) << '\n';
+   cout << "s5.substring(16,10) = " << s5.substring(16,10) << '\n';
    cout << "s5.substring(23) = " << s5.substring(23) << '\n';
 
    cout << "-----------------------------\n";

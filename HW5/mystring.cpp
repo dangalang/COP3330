@@ -20,25 +20,42 @@ ostream& operator<<(ostream& os, const MyString& str) {
 
 
 istream& operator>>(istream& is, MyString& str) {
+    //TODO: Don't do this. must allow variable number of characters
     is >> str.data;
     return is;
 }
 
 
 istream& getline(istream& is, MyString& str) {
-    is.getline(str.data);
-    return is;
+    return getline(is, str, '\n');
 }
 
 
 istream& getline(istream& is, MyString& str, char delim) {
-    is.getline(str.data, delim);
+    //TODO: Don't do this. must allow any number of characters
+    char temp[256];
+    is.getline(temp, 256, delim);
+    delete [] str.data;
+    str.length = strlen(temp) + 1;
+    str.data = new char[str.length];
+    for (int i = 0; i < str.length; i++) {
+        str.data[i] = temp[i];
+    }
+    str.data[str.length - 1] = '\0';
     return is;
 }
 
 
 MyString operator+(const MyString& str1, const MyString& str2) {
-    return MyString(strcat(str1.data, str2.data));
+    MyString temp;
+    temp.length = str1.length + str2.length - 1;
+    delete [] temp.data;
+    temp.data = new char[temp.length];
+
+    strcat(temp.data, str1.data);
+    strcat(temp.data, str2.data);
+
+    return temp;
 }
 
 
@@ -51,7 +68,7 @@ MyString operator-(const MyString& str1, const MyString& str2) {
 
 bool operator<(const MyString& str1, const MyString& str2) {
 
-    return strcmp(str1, str2);
+    return strcmp(str1.data, str2.data) < 0;
 }
 
 
@@ -99,10 +116,15 @@ MyString::MyString(const char* array) {
 
 
 MyString::MyString(int num) {
-    length = num / 10 + 2;
+    length = 1;
+    int temp = num;
+    while (temp != 0) {
+        length++;
+        temp /= 10;
+    }
     data = new char[length];
     for (int i = 0; i < length; i++) {
-        data[length - 1 - i] = num % 10;
+        data[length - 2 - i] = num % 10 + '0';
         num /= 10;
     }
     data[length - 1] = '\0';
@@ -132,31 +154,34 @@ MyString& MyString::operator=(const MyString& str) {
 
 
 MyString& MyString::operator+=(const MyString& str) {
-    temp = *this + str;
+    MyString temp = *this + str;
     delete [] data;
-    length = temp.length();
+    length = temp.length;
     data = new char[length];
     strcpy(data, temp.data);
 }
 
 char& MyString::operator[](unsigned int index) {
-    if (index < length) return &data[index];
+    //TODO: Resize string to new index length and fill with spaces
+    if (index < length) return data[index];
     else return data[length - 1];
 }
 
 
 const char& MyString::operator[](unsigned int index) const {
-    if (index < length) return &data[index];
-    else return &data[length - 1];
+    if (index < length) return data[index];
+    else return data[length - 1];
 }
 
 
 MyString& MyString::insert(unsigned int index, const MyString &s) {
+    //TODO: Fix broken insertion
     if (index < length) {
         char temp[length + s.length];
         for (int i = 0; i < index; i++) temp[i] = data[i];
         for (int i = 0; i < s.getLength(); i++) temp[index + i] = s[i];
-        for (int i = index; i < length; i++) temp[i] = data[i - index];
+        for (int i = index; i < length; i++)
+            temp[i + length] = data[i];
         data[length - 1] = '\0';
     } else *this += s;
 
@@ -165,7 +190,11 @@ MyString& MyString::insert(unsigned int index, const MyString &s) {
 
 
 int MyString::indexOf(const MyString &s) const {
-    return strstr(data, s.data);
+    int location = static_cast<int>(strstr(data, s.data) - data);
+    if (location < *data + length && location > 0)
+        return location;
+    else
+        return -1;
 }
 
 
@@ -179,12 +208,12 @@ const char* MyString::getCString() const {
 }
 
 
-MyString MyString::substring(unsigned int start, unsigned int end) const {
-    if (start > end || start >= length) return MyString();
-    if (end < length) {
-        char temp[end - start + 1];
-        strncpy(temp, data + start, end);
-        temp[end - start] = '\0';
+MyString MyString::substring(unsigned int start, unsigned int num) const {
+    if (start >= length) return MyString();
+    if (start + num < length) {
+        char temp[start + num + 1];
+        strncpy(temp, data + start, start + num);
+        temp[num] = '\0';
         return MyString(temp);
 
     } else return substring(start);
@@ -195,7 +224,7 @@ MyString MyString::substring(unsigned int start) const {
     if (start >= length) return MyString();
     else {
         char temp[length - start + 1];
-        strncpy(temp, data + start);
+        strcpy(temp, data + start);
         temp[length - start] = '\0';
 
         return MyString(temp);
