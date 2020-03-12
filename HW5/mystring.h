@@ -4,12 +4,12 @@ using namespace std;
 
 class MyString
 {
-    friend ostream& operator<< (ostream& , const MyString& );
-    friend istream& operator>> (istream& , MyString& );
-    friend istream& getline (istream& , MyString& );
-    friend istream& getline (istream& , MyString& , char delim);
+    friend ostream& operator<<(ostream& , const MyString& );
+    friend istream& operator>>(istream& , MyString& );
+    friend istream& getline(istream& , MyString& );
+    friend istream& getline(istream& , MyString& , char delim);
 
-    friend MyString operator+ (const MyString& , const MyString& );
+    friend MyString operator+(const MyString& , const MyString& );
 
     friend bool operator< (const MyString& , const MyString& );
     friend bool operator> (const MyString& , const MyString& );
@@ -29,8 +29,8 @@ public:
     MyString& operator+=(const MyString& );  // concatenation/assignment
 
     // bracket operators to access char positions
-    char& operator[] (unsigned int index);
-    const char& operator[] (unsigned int index) const;
+    char& operator[](unsigned int index);
+    const char& operator[](unsigned int index) const;
 
     // insert s into the string at position "index"
     MyString& insert(unsigned int index, const MyString& s);
@@ -46,6 +46,10 @@ public:
     MyString substring(unsigned int ) const;
 
 private:
-    char* data;
-    int length;
+    void resetArray(int size);
+    void padArray(int size);
+    void trimArray();
+
+    char* data;     // character array containing string characters
+    int length;     // number of characters in string, counting null terminator
 };

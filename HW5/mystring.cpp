@@ -14,43 +14,66 @@ using namespace std;
 // ---------------------- MyString Friend functions ---------------------------
 
 ostream& operator<<(ostream& os, const MyString& str) {
-    os << str.data;
+    if (str.data[str.length - 1] == '\0')
+        os << str.data;
+    else
+        for (int i = 0; i < str.length; i++)
+            os << str.data[i];
     return os;
 }
 
 
 istream& operator>>(istream& is, MyString& str) {
-    //TODO: Don't do this. must allow variable number of characters
-    is >> str.data;
+    char next_char;
+    int num = 0;
+    str.resetArray(5);
+
+    while (is.peek() == ' ')
+        is.get();
+    while (is.peek() != ' ') {
+        is.get(next_char);
+        if (str.length <= num) str.padArray(5);
+        str.data[num++] = next_char;
+    }
+    if (str.length <= num) str.padArray(2);
+    str.data[num] = '\0';
+    str.trimArray();
+
     return is;
 }
 
 
 istream& getline(istream& is, MyString& str) {
-    return getline(is, str, '\n');
+    //TODO: Fix this broken code...
+    getline(is, str, '\n');
+    return is;
 }
 
 
 istream& getline(istream& is, MyString& str, char delim) {
-    //TODO: Don't do this. must allow any number of characters
-    char temp[256];
-    is.getline(temp, 256, delim);
-    delete [] str.data;
-    str.length = strlen(temp) + 1;
-    str.data = new char[str.length];
-    for (int i = 0; i < str.length; i++) {
-        str.data[i] = temp[i];
+    char next_char;
+    int num = 0;
+    str.resetArray(5);
+
+    while (is.peek() != delim) {
+        is.get(next_char);
+        if (str.length <= num) str.padArray(5);
+        str.data[num++] = next_char;
     }
-    str.data[str.length - 1] = '\0';
+    is.get();
+
+    if (str.length <= num) str.padArray(2);
+    str.data[num] = '\0';
+    if (str.length != num)
+        str.trimArray();
+
     return is;
 }
 
 
 MyString operator+(const MyString& str1, const MyString& str2) {
     MyString temp;
-    temp.length = str1.length + str2.length - 1;
-    delete [] temp.data;
-    temp.data = new char[temp.length];
+    temp.resetArray(str1.length + str2.length - 1);
 
     strcat(temp.data, str1.data);
     strcat(temp.data, str2.data);
@@ -100,6 +123,8 @@ bool operator!=(const MyString& str1, const MyString& str2) {
 
 // ---------------------- MyString Public functions ---------------------------
 
+/* Default constructor for MyString object.  Default object is a string of
+ * one character length, containing only the null terminator. */
 MyString::MyString() {
     length = 1;
     data = new char[length];
@@ -107,6 +132,8 @@ MyString::MyString() {
 }
 
 
+/* Constructor for character array parameters.  Calculates the length of the
+ * array and ensures the final character is the null terminator. */
 MyString::MyString(const char* array) {
     length = strlen(array) + 1;
     data = new char[length];
@@ -115,6 +142,7 @@ MyString::MyString(const char* array) {
 }
 
 
+/* Constructor to convert from integer to MyString object. */
 MyString::MyString(int num) {
     length = 1;
     int temp = num;
@@ -131,11 +159,16 @@ MyString::MyString(int num) {
 }
 
 
+/* MyString object destructor used for cleaning up dynamic memory in data
+ * array. */
 MyString::~MyString() {
     delete [] data;
 }
 
 
+/* Copy constructor for MyString object. Creates a new MyString object of the
+ * same length and copies the characters into a unique character array before
+ * ensuring the final character is the null terminator. */
 MyString::MyString(const MyString& str) {
     length = str.length;
     data = new char[length];
@@ -144,10 +177,11 @@ MyString::MyString(const MyString& str) {
 }
 
 
+/* Equality operator overload.  Resets the character array before copying the
+ * other MyString data array into the local variable and forces the final
+ * character to the null terminator. */
 MyString& MyString::operator=(const MyString& str) {
-    delete [] data;
-    length = str.length;
-    data = new char[length];
+    resetArray(str.length);
     strcpy(data, str.data);
     data[length - 1] = '\0';
 }
@@ -155,9 +189,7 @@ MyString& MyString::operator=(const MyString& str) {
 
 MyString& MyString::operator+=(const MyString& str) {
     MyString temp = *this + str;
-    delete [] data;
-    length = temp.length;
-    data = new char[length];
+    resetArray(temp.length);
     strcpy(data, temp.data);
 }
 
@@ -229,4 +261,34 @@ MyString MyString::substring(unsigned int start) const {
 
         return MyString(temp);
     }
+}
+
+
+// ---------------------- MyString Private functions --------------------------
+
+
+void MyString::resetArray(int size) {
+    delete [] data;
+    length = size;
+    data = new char[length];
+}
+
+
+void MyString::padArray(int padding) {
+    int old_length = length;
+    char temp[old_length];
+    strncpy(temp, data, old_length);
+    resetArray(old_length + padding);
+    strncpy(data, temp, old_length);
+    data[old_length] = '\0';
+}
+
+
+void MyString::trimArray() {
+    int str_length = strlen(data) + 1;
+    char temp[str_length];
+    strncpy(temp, data, str_length);
+    resetArray(str_length);
+    strncpy(data, temp, length);
+    data[length - 1] = '\0';
 }

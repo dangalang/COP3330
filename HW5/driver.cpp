@@ -24,9 +24,9 @@ int main()
         << "\tgetline(cin, s3)\n";
    cout << "Enter some sentences: ";
 
-//   cin >> s1;
-//   getline(cin,s2,',');
-//   getline(cin,s3);
+   cin >> s1;
+   getline(cin,s2,',');
+   getline(cin,s3);
 
 //   cout << "Enter them again: ";
 //   cin >> temp1;
