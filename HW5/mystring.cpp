@@ -44,9 +44,7 @@ istream& operator>>(istream& is, MyString& str) {
 
 
 istream& getline(istream& is, MyString& str) {
-    //TODO: Fix this broken code...
-    getline(is, str, '\n');
-    return is;
+    return getline(is, str, '\n');
 }
 
 
@@ -151,8 +149,8 @@ MyString::MyString(int num) {
         temp /= 10;
     }
     data = new char[length];
-    for (int i = 0; i < length; i++) {
-        data[length - 2 - i] = num % 10 + '0';
+    for (int i = length - 2; i >= 0; i--) {
+        data[i] = num % 10 + '0';
         num /= 10;
     }
     data[length - 1] = '\0';
@@ -194,9 +192,17 @@ MyString& MyString::operator+=(const MyString& str) {
 }
 
 char& MyString::operator[](unsigned int index) {
-    //TODO: Resize string to new index length and fill with spaces
     if (index < length) return data[index];
-    else return data[length - 1];
+    else {
+        int padding = index - length;
+        char * temp = new char[padding + 2];
+        for (int i = 0; i <= padding; i++) temp[i] = ' ';
+        temp[padding + 1] = '\0';
+
+        *this += temp;
+        delete [] temp;
+        return data[index];
+    }
 }
 
 
@@ -209,12 +215,15 @@ const char& MyString::operator[](unsigned int index) const {
 MyString& MyString::insert(unsigned int index, const MyString &s) {
     //TODO: Fix broken insertion
     if (index < length) {
-        char temp[length + s.length];
+        char * temp = new char[length + s.length];
         for (int i = 0; i < index; i++) temp[i] = data[i];
         for (int i = 0; i < s.getLength(); i++) temp[index + i] = s[i];
         for (int i = index; i < length; i++)
-            temp[i + length] = data[i];
-        data[length - 1] = '\0';
+            temp[i + s.length - 1] = data[i];
+        temp[length + s.length - 1] = '\0';
+
+        *this = temp;
+        delete [] temp;
     } else *this += s;
 
     return *this;

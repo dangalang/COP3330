@@ -5,8 +5,6 @@ using namespace std;
 
 int main()
 {
-   char temp1[300], temp2[300], temp3[300];
-
    MyString s1;
    MyString s2("Hello, World");
    MyString s3 = "Welcome to Florida, have a nice day";
@@ -28,24 +26,12 @@ int main()
    getline(cin,s2,',');
    getline(cin,s3);
 
-//   cout << "Enter them again: ";
-//   cin >> temp1;
-//   cin.getline(temp2, 300, ',');
-//   cin.getline(temp3, 300);
-
    cout << "\nNew string values:\n";
 
    cout << "s1 = " << s1 << '\n';
    cout << "s2 = " << s2 << '\n';
    cout << "s3 = " << s3 << '\n';
    cout << "---------------------------\n";
-
-//   cout << "Comparison to cstrings:\n";
-//   cout << "s1 = " << temp1 << '\n';
-//   cout << "s2 = " << temp2 << '\n';
-//   cout << "s3 = " << temp3 << '\n';
-//   cout << "---------------------------\n";
-// ----------------------------------
 
    s1 = "Dog";
    s2 = "Food";
@@ -101,7 +87,5 @@ int main()
    if (x >= y)		cout << "x >= y is true\n";
    if (x == y)		cout << "x == y is true\n";
    if (x != y)		cout << "x != y is true\n";
-
-
 
 }
