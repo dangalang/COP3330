@@ -98,16 +98,6 @@ MyString operator+(const MyString& str1, const MyString& str2) {
 }
 
 
-/* Subtraction operator overload.  A new MyString object is returned in which
- * every instance of str2 is removed from str1. */
-MyString operator-(const MyString& str1, const MyString& str2) {
-    //TODO: Implement subtraction functionality
-    MyString temp;
-
-    return temp;
-}
-
-
 /* Less than comparison operator overload.  Returns true if str1 comes before
  * str2 lexicographically. */
 bool operator<(const MyString& str1, const MyString& str2) {
